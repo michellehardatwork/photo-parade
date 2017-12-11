@@ -11,10 +11,10 @@ This Swift application uses the [Fliker Photo API](https://www.flickr.com/servic
 
 ## Outstanding Items
 
-⋅⋅Finish out unit tests & UI tests
-⋅⋅The images should be cached, and then clear the cache when the search parameters change
-⋅⋅Display a default/loading image and an error state image
-⋅⋅Need to implement the drill down detail view for photos
+* Finish out unit tests & UI tests
+* The images should be cached, and then clear the cache when the search parameters change
+* Display a default/loading image and an error state image
+* Need to implement the drill down detail view for photos
 
 ## Optional Dependencies
 The project uses [SwiftLint](https://github.com/realm/SwiftLint) to validate formatting.  A warning will display while building if you don't have this installed.  
