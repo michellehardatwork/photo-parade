@@ -1,6 +1,6 @@
 //
 //  Flickr.swift
-//  HEBBuddy
+//  PhotoParade
 //
 //  Created by Cervenka, Michelle on 12/8/17.
 //  Copyright © 2017 Michelle Cervenka. All rights reserved.
@@ -11,12 +11,22 @@ import Foundation
 //swiftlint:disable comma
 class Flickr: PhotoProvider {
     
+    static let APIKeyName = "FLICKR_API_KEY"
+    
+    private lazy var apiKey: String? = {
+        return APIKey.valueForAPI(Flickr.APIKeyName)
+    }()
+    
     func url(_ request: PhotoRequest) -> URL? {
+        guard let apiKey = apiKey else {
+            return nil
+        }
+        
         if var urlComponents = URLComponents(string: "https://api.flickr.com/services/rest") {
             
             urlComponents.queryItems = [
                 URLQueryItem(name: "method",         value: "flickr.photos.search"),
-                URLQueryItem(name: "api_key",        value: "75c792f8a8efecb56625e986731a6745"),
+                URLQueryItem(name: "api_key",        value: apiKey),
                 URLQueryItem(name: "text",           value: request.searchTerm),
                 URLQueryItem(name: "format",         value: "json"),
                 URLQueryItem(name: "nojsoncallback", value: "1"),

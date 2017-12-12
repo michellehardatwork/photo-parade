@@ -6,8 +6,19 @@ This Swift application uses the [Fliker Photo API](https://www.flickr.com/servic
 
 ## Run
 1. `git clone https://github.com/michellehardatwork/photo-parade.git`
-2.  Open `PhotoParade.xcodeproj` using XCode 9.1
-3.  Build/Run using XCode
+2.  Add a Keys.plist file to the `photo-parade/PhotoParade` directory.  
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FLICKR_API_KEY</key>
+	<string>xxxx_YOUR_TOKEN_HERE_xxxx</string>
+</dict>
+</plist>
+```
+3.  Open `PhotoParade.xcodeproj` using XCode 9.1
+4.  Build/Run using XCode
 
 ## Outstanding Items
 
