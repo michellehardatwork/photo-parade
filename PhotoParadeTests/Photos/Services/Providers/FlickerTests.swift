@@ -25,12 +25,14 @@ class FlickerTests: XCTestCase {
         // given
         let request = PhotoRequest(searchTerm: "tomatoes", page: 1)
         let flickrProvider = Flickr()
+        let apiKey = APIKey.valueForAPI(Flickr.APIKeyName)
         
         // when
         let url = flickrProvider.url(request)
         
         // then
-        XCTAssertEqual(url, URL(string: "https://api.flickr.com/services/rest?method=flickr.photos.search&api_key=75c792f8a8efecb56625e986731a6745&text=tomatoes&format=json&nojsoncallback=1&per_page=30&page=1&sort=relevance"), "Expected URLs to match")
+        XCTAssertNotNil(apiKey, "expect api key to have value")
+        XCTAssertEqual(url, URL(string: "https://api.flickr.com/services/rest?method=flickr.photos.search&api_key=\(apiKey ?? "")&text=tomatoes&format=json&nojsoncallback=1&per_page=30&page=1&sort=relevance"), "Expected URLs to match")
     }
     
 }
