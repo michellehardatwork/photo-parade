@@ -8,6 +8,28 @@
 
 import Foundation
 
+struct FlickrResult: Codable {
+    struct MetaData: Codable {
+        let photo: [FlickrPhoto]
+        let total: String
+    }
+    
+    struct FlickrPhoto: Codable {
+        let id: String
+        let owner: String
+        let secret: String
+        let server: String
+        let farm: Int
+        let title: String
+        
+        func url() -> String {
+            return "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
+        }
+    }
+    
+    let photos: MetaData
+}
+
 //swiftlint:disable comma
 class Flickr: PhotoProvider {
     
@@ -42,49 +64,27 @@ class Flickr: PhotoProvider {
     }
     
     func photos(_ data: Data?) -> PhotoResult {
-        //Checking response content
+        
+        let decoder = JSONDecoder()
+        
         guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data) as? JSONDictionary,
-            let photosJsonResults = json?["photos"] as? JSONDictionary,
-            let totalAsString = (photosJsonResults["total"] as? String),
-            let total = Int(totalAsString),
-            let photoJsonResults = photosJsonResults["photo"] as? [Any] else {
+            let flickrPhotos = try? decoder.decode(FlickrResult.self, from: data) else {
                 print("Photo Service: No data received or unexpected format")
                 return PhotoResult(results: [], totalMatches: .noTotal)
         }
         
-        //Transform JSON to photos
-        let photos: [Photo?] = photoJsonResults.map({ (item: Any) -> Photo?  in
-            if let photoDictionary = item as? JSONDictionary,
-                let photo = self.parsePhoto(json: photoDictionary) {
-                return photo
+        //Transform into generic Photo array
+        let photos: [Photo?] = flickrPhotos.photos.photo.map({ (item: Any) -> Photo?  in
+            if let flickrPhoto = item as? FlickrResult.FlickrPhoto {
+               return Photo(title: flickrPhoto.title, imageURL: flickrPhoto.url())
             }
             return nil
         })
         
-        return PhotoResult(results: photos.flatMap { $0 }, totalMatches: .total(total))
+        return PhotoResult(results: photos.flatMap { $0 }, totalMatches: .total((Int(flickrPhotos.photos.total) ?? 0)))
     }
     
 }
-
-// MARK: - Data Parsing
-
-extension Flickr {
-    
-    func parsePhoto(json: JSONDictionary) -> Photo? {
-        guard let title =  json["title"] as? String,
-              let id =     json["id"] as? String,
-              let server = json["server"] as? String,
-              let farm =   json["farm"] as? Int,
-              let secret = json["secret"] as? String else {
-                return nil
-        }
-    
-        //Build URL according to https://www.flickr.com/services/api/misc.urls.html
-        return Photo(title: title, imageURL: "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg")
-    }
-}
-
 
 /* TODO: Create Error Codes for Flikr
  
