@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9E81FB711FE019E100AC0525 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E81FB701FE019E100AC0525 /* Keys.plist */; };
 		9E81FB731FE01A2B00AC0525 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E81FB721FE01A2B00AC0525 /* APIKeys.swift */; };
 		9EF1FA091FDDFA0B00B7DD7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF1FA081FDDFA0B00B7DD7A /* AppDelegate.swift */; };
 		9EF1FA0E1FDDFA0B00B7DD7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EF1FA0C1FDDFA0B00B7DD7A /* Main.storyboard */; };
@@ -24,6 +23,14 @@
 		9EF1FA4C1FDDFA5C00B7DD7A /* PhotoSearchTableStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF1FA441FDDFA5C00B7DD7A /* PhotoSearchTableStateView.swift */; };
 		9EF1FA511FDDFDA600B7DD7A /* FlickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF1FA501FDDFDA600B7DD7A /* FlickerTests.swift */; };
 		9EF1FA581FDE121C00B7DD7A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9EF1FA571FDE121C00B7DD7A /* .swiftlint.yml */; };
+		9FFD6A4B23EB71980098D285 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FFD6A4A23EB71980098D285 /* Keys.plist */; };
+		9FFD6A4D23EB779B0098D285 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A4C23EB779B0098D285 /* PhotoViewModel.swift */; };
+		9FFD6A4F23EB7A5B0098D285 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A4E23EB7A5B0098D285 /* PhotosViewModel.swift */; };
+		9FFD6A5123EB81830098D285 /* PhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A5023EB81830098D285 /* PhotoRequest.swift */; };
+		9FFD6A5323EBB2F30098D285 /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A5223EBB2F30098D285 /* PhotoResult.swift */; };
+		9FFD6A5523EBB3190098D285 /* Total.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A5423EBB3190098D285 /* Total.swift */; };
+		9FFD6A5723EBB3780098D285 /* PhotoServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A5623EBB3780098D285 /* PhotoServiceError.swift */; };
+		9FFD6A5923EBB3B20098D285 /* PhotoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD6A5823EBB3B20098D285 /* PhotoProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9E81FB701FE019E100AC0525 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		9E81FB721FE01A2B00AC0525 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		9EF1FA051FDDFA0B00B7DD7A /* PhotoParade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoParade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EF1FA081FDDFA0B00B7DD7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +73,14 @@
 		9EF1FA441FDDFA5C00B7DD7A /* PhotoSearchTableStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSearchTableStateView.swift; sourceTree = "<group>"; };
 		9EF1FA501FDDFDA600B7DD7A /* FlickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerTests.swift; sourceTree = "<group>"; };
 		9EF1FA571FDE121C00B7DD7A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		9FFD6A4A23EB71980098D285 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		9FFD6A4C23EB779B0098D285 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
+		9FFD6A4E23EB7A5B0098D285 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
+		9FFD6A5023EB81830098D285 /* PhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRequest.swift; sourceTree = "<group>"; };
+		9FFD6A5223EBB2F30098D285 /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
+		9FFD6A5423EBB3190098D285 /* Total.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Total.swift; sourceTree = "<group>"; };
+		9FFD6A5623EBB3780098D285 /* PhotoServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoServiceError.swift; sourceTree = "<group>"; };
+		9FFD6A5823EBB3B20098D285 /* PhotoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,13 +132,13 @@
 		9EF1FA071FDDFA0B00B7DD7A /* PhotoParade */ = {
 			isa = PBXGroup;
 			children = (
-				9E81FB701FE019E100AC0525 /* Keys.plist */,
 				9EF1FA361FDDFA5C00B7DD7A /* Photos */,
 				9EF1FA081FDDFA0B00B7DD7A /* AppDelegate.swift */,
 				9EF1FA0C1FDDFA0B00B7DD7A /* Main.storyboard */,
 				9EF1FA0F1FDDFA0B00B7DD7A /* Assets.xcassets */,
 				9EF1FA111FDDFA0B00B7DD7A /* LaunchScreen.storyboard */,
 				9EF1FA141FDDFA0B00B7DD7A /* Info.plist */,
+				9FFD6A4A23EB71980098D285 /* Keys.plist */,
 			);
 			path = PhotoParade;
 			sourceTree = "<group>";
@@ -161,6 +175,10 @@
 			isa = PBXGroup;
 			children = (
 				9EF1FA381FDDFA5C00B7DD7A /* Photo.swift */,
+				9FFD6A5023EB81830098D285 /* PhotoRequest.swift */,
+				9FFD6A5223EBB2F30098D285 /* PhotoResult.swift */,
+				9FFD6A5423EBB3190098D285 /* Total.swift */,
+				9FFD6A5623EBB3780098D285 /* PhotoServiceError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,6 +186,7 @@
 		9EF1FA391FDDFA5C00B7DD7A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9FFD6A5823EBB3B20098D285 /* PhotoProvider.swift */,
 				9EF1FA3A1FDDFA5C00B7DD7A /* PhotoService.swift */,
 				9EF1FA3B1FDDFA5C00B7DD7A /* Providers */,
 				9E81FB721FE01A2B00AC0525 /* APIKeys.swift */,
@@ -207,6 +226,8 @@
 				9EF1FA421FDDFA5C00B7DD7A /* PhotoCollectionViewCell.swift */,
 				9EF1FA431FDDFA5C00B7DD7A /* PhotoCollectionViewController.swift */,
 				9EF1FA441FDDFA5C00B7DD7A /* PhotoSearchTableStateView.swift */,
+				9FFD6A4C23EB779B0098D285 /* PhotoViewModel.swift */,
+				9FFD6A4E23EB7A5B0098D285 /* PhotosViewModel.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -304,15 +325,18 @@
 				TargetAttributes = {
 					9EF1FA041FDDFA0B00B7DD7A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
 					9EF1FA181FDDFA0B00B7DD7A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 9EF1FA041FDDFA0B00B7DD7A;
 					};
 					9EF1FA231FDDFA0B00B7DD7A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 9EF1FA041FDDFA0B00B7DD7A;
 					};
@@ -347,7 +371,7 @@
 				9EF1FA131FDDFA0B00B7DD7A /* LaunchScreen.storyboard in Resources */,
 				9EF1FA101FDDFA0B00B7DD7A /* Assets.xcassets in Resources */,
 				9EF1FA0E1FDDFA0B00B7DD7A /* Main.storyboard in Resources */,
-				9E81FB711FE019E100AC0525 /* Keys.plist in Resources */,
+				9FFD6A4B23EB71980098D285 /* Keys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,14 +412,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FFD6A5523EBB3190098D285 /* Total.swift in Sources */,
 				9EF1FA491FDDFA5C00B7DD7A /* PhotoDetailViewController.swift in Sources */,
+				9FFD6A4D23EB779B0098D285 /* PhotoViewModel.swift in Sources */,
 				9EF1FA451FDDFA5C00B7DD7A /* Photo.swift in Sources */,
 				9EF1FA091FDDFA0B00B7DD7A /* AppDelegate.swift in Sources */,
 				9EF1FA4C1FDDFA5C00B7DD7A /* PhotoSearchTableStateView.swift in Sources */,
 				9EF1FA4B1FDDFA5C00B7DD7A /* PhotoCollectionViewController.swift in Sources */,
+				9FFD6A5723EBB3780098D285 /* PhotoServiceError.swift in Sources */,
+				9FFD6A5123EB81830098D285 /* PhotoRequest.swift in Sources */,
 				9EF1FA481FDDFA5C00B7DD7A /* ColumnFlowLayout.swift in Sources */,
 				9E81FB731FE01A2B00AC0525 /* APIKeys.swift in Sources */,
+				9FFD6A5323EBB2F30098D285 /* PhotoResult.swift in Sources */,
 				9EF1FA4A1FDDFA5C00B7DD7A /* PhotoCollectionViewCell.swift in Sources */,
+				9FFD6A5923EBB3B20098D285 /* PhotoProvider.swift in Sources */,
+				9FFD6A4F23EB7A5B0098D285 /* PhotosViewModel.swift in Sources */,
 				9EF1FA471FDDFA5C00B7DD7A /* Flickr.swift in Sources */,
 				9EF1FA461FDDFA5C00B7DD7A /* PhotoService.swift in Sources */,
 			);
@@ -568,7 +599,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParade;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -582,7 +613,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParade;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -597,7 +628,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParadeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoParade.app/PhotoParade";
 			};
@@ -613,7 +644,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParadeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoParade.app/PhotoParade";
 			};
@@ -628,7 +659,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParadeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = PhotoParade;
 			};
@@ -643,7 +674,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cervenka.PhotoParadeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = PhotoParade;
 			};

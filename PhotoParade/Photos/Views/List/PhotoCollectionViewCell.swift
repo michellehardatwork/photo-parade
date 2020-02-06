@@ -12,9 +12,9 @@ import UIKit
 // an empty image or error message.
 class PhotoCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet fileprivate weak var containerView: UIView!
-    @IBOutlet fileprivate weak var titleLabel: UILabel!
-    @IBOutlet fileprivate weak var imageView: UIImageView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
     
     var imageDataTask: URLSessionDataTask?
     

@@ -19,16 +19,16 @@ class PhotoSearchTableStateView: UIView {
         return paragraph
     }()
     
-    private lazy var titleStyle: [NSAttributedStringKey : Any] = {
-        return [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.bold),
-                NSAttributedStringKey.foregroundColor: UIColor.darkText,
-                NSAttributedStringKey.paragraphStyle: self.paragraphStyle]
+    private lazy var titleStyle: [NSAttributedString.Key: Any] = {
+        return [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.bold),
+                NSAttributedString.Key.foregroundColor: UIColor.darkText,
+                NSAttributedString.Key.paragraphStyle: self.paragraphStyle]
     }()
     
-    private lazy var descriptionStyle: [NSAttributedStringKey : Any] = {
-        return [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.regular),
-                NSAttributedStringKey.foregroundColor: UIColor.darkText,
-                NSAttributedStringKey.paragraphStyle: self.paragraphStyle]
+    private lazy var descriptionStyle: [NSAttributedString.Key: Any] = {
+        return [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.regular),
+                NSAttributedString.Key.foregroundColor: UIColor.darkText,
+                NSAttributedString.Key.paragraphStyle: self.paragraphStyle]
     }()
     
     func showNothing() {

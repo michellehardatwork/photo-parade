@@ -9,48 +9,8 @@
 import Foundation
 
 typealias JSONDictionary = [String: Any]
-typealias PhotoResponse = (Result<PhotoResult>) -> Void
-
-struct PhotoRequest {
-    var searchTerm: String?
-    var page = 1
-    let itemsPerPage = 30
-}
-
-struct PhotoResult {
-    let results: [Photo]
-    let totalMatches: Total
-}
-
-enum Total {
-    case noTotal
-    case total(Int)
-}
-
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
-enum PhotoServiceError: Error {
-    case malformedURL
-    case unexpectedHttpResponse
-}
-
-extension PhotoServiceError: LocalizedError {
-    public var errorDescription: String? {
-        return NSLocalizedString("Oops!  Something unexpected happened.", comment: "general error message")
-    }
-}
-
-// Represents a provider that can handle a request to search for photos
-protocol PhotoProvider {
-    func url(_ request: PhotoRequest) -> URL?
-    func photos(_ data: Data?) -> PhotoResult
-}
 
 class PhotoService {
-    
     let photoProvider: PhotoProvider
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
@@ -64,7 +24,7 @@ class PhotoService {
         dataTask?.cancel()
     }
     
-    func search(_ request: PhotoRequest, completion: @escaping PhotoResponse) {
+    func search(_ request: PhotoRequest, completion: @escaping (Result<PhotoResult, Error>) -> Void) {
         
         guard let url = photoProvider.url(request) else {
             completion(Result.failure(PhotoServiceError.malformedURL))

@@ -15,23 +15,6 @@ private enum State {
     case searched
 }
 
-struct PhotoDataSource {
-    let request: PhotoRequest
-    let totalMatches: Total
-    let photos: [Photo]
-}
-
-extension PhotoDataSource {
-    func hasMore() -> Bool {
-        switch totalMatches {
-        case .total(let value):
-            return value > ((request.page - 1) * request.itemsPerPage)
-        default:
-            return false
-        }
-    }
-}
-
 class PhotoCollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -40,33 +23,29 @@ class PhotoCollectionViewController: UIViewController {
     
     let photoService = PhotoService(photoProvider: Flickr())
     
-    fileprivate var photoDataSource = PhotoDataSource(
-        request: PhotoRequest(searchTerm: "Fruit faces", page: 1),
+    private var photosViewModel = PhotosViewModel(
+        searchTerm: nil,
         totalMatches: .noTotal,
-        photos: [Photo]()) {
+        photos: [Int: PhotoViewModel]()) {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    fileprivate var currentState = State.none {
+    private var currentState = State.none {
         didSet {
             switch currentState {
             case .initial:
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 activityView.showInitial()
-                break
             case .searching:
                 UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 activityView.showSearching()
-                break
             case .searched:
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                activityView.showSearched(count: photoDataSource.photos.count)
-                break
+                activityView.showSearched(count: photosViewModel.photos.count)
             case .none:
                 activityView.showNothing()
-                break
             }
         }
     }
@@ -83,11 +62,12 @@ class PhotoCollectionViewController: UIViewController {
         
         collectionView.collectionViewLayout = columnLayout
         collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.prefetchDataSource = self
         
         currentState = .initial
         
         //Seed the search
-        search(photoDataSource.request)
+        search(PhotoRequest(searchTerm: "Fruit faces", page: 1))
     }
 }
 
@@ -95,12 +75,16 @@ class PhotoCollectionViewController: UIViewController {
 extension PhotoCollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoDataSource.photos.count
+        return photosViewModel.totalMatches.totalIfAny ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as? PhotoCollectionViewCell {
-            cell.photo = photoDataSource.photos[indexPath.item]
+            
+            if let photoViewModel = photosViewModel.photos[indexPath.item] {
+                cell.photo = photoViewModel.photoIfAny
+            }
+                        
             return cell
         }
         
@@ -111,28 +95,19 @@ extension PhotoCollectionViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension PhotoCollectionViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout,
-            layout.scrollDirection == .horizontal {
-            let offsetX = collectionView.contentOffset.x
-            let contentWidth = collectionView.contentSize.width
-            if offsetX > contentWidth - collectionView.frame.size.width {
-                loadMore()
-            }
-        } else {
-            let offsetY = collectionView.contentOffset.y
-            let contentHeight = collectionView.contentSize.height
-            if offsetY > contentHeight - collectionView.frame.size.height {
-                loadMore()
-            }
-        }
+}
+
+// MARK: - UICollectionViewDelegate
+extension PhotoCollectionViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        loadMore(indexPaths)
     }
 }
 
 // MARK: - Search
 extension PhotoCollectionViewController: UISearchBarDelegate {
     
-    @objc fileprivate func initialSearch() {
+    @objc private func initialSearch() {
         guard let searchText = searchBar.text, !searchText.isEmpty else {
             // There is no search text so we will not search
             return
@@ -141,7 +116,7 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
         search(PhotoRequest(searchTerm: searchText, page: 1))
     }
     
-    fileprivate func search(_ request: PhotoRequest) {
+    private func search(_ request: PhotoRequest) {
         currentState = .searching
         searchBar.text = request.searchTerm
         
@@ -151,37 +126,34 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
         //Perform new search
         photoService.search(request, completion: { [weak self] result in
             
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
             
             switch result {
             case .success(let resultMetaData):
                 
-                var photos = resultMetaData.results
+                var photos = resultMetaData.results.convertToViewModel(startIndex: ((request.page - 1) * PhotoRequest.itemsPerPage))
                 
                 // Successful Search - update the UI
-                if request.page > 1 {
-                    photos = strongSelf.photoDataSource.photos + photos
-                }
+                photos = self.photosViewModel.photos.merging(photos) { (_, new) in new }
                 
-                strongSelf.photoDataSource = PhotoDataSource(request: request, totalMatches: resultMetaData.totalMatches, photos: photos)
-                
-                break
+                self.photosViewModel = PhotosViewModel(searchTerm: request.searchTerm, totalMatches: resultMetaData.totalMatches, photos: photos)
+
+                self.currentState = .searched
                 
             case .failure(let error):
                 
                 guard (error as NSError).code != NSURLErrorCancelled else {
                     //We expect a cancelled request since we are the ones cancelling it
-                    break
+
+                    self.currentState = .searched
+                    return
                 }
                 
                 // Failed Search - show the error
-                strongSelf.showError(error)
-                break
+                self.showError(error)
             }
-            
-            strongSelf.currentState = .searched
         })
     }
     
@@ -191,7 +163,7 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
         
         guard let searchText = searchBar.text, !searchText.isEmpty else {
             currentState = .initial
-            photoDataSource = PhotoDataSource(request: PhotoRequest(searchTerm: "", page: 1), totalMatches: .noTotal, photos: [])
+            photosViewModel = PhotosViewModel(searchTerm: nil, totalMatches: .noTotal, photos: [Int: PhotoViewModel]())
             return
         }
         
@@ -204,24 +176,26 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
         initialSearch()
     }
     
-    fileprivate func delaySearch() {
+    private func delaySearch() {
         // Delaying the search by 1 second so we don't overload the backend
         perform(#selector(self.initialSearch), with: nil, afterDelay: 1.0)
     }
     
-    fileprivate func cancelSearch() {
+    private func cancelSearch() {
         // Cancel any previous delayed requests to search because it is obsolete.
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.initialSearch), object: nil)
     }
     
-    fileprivate func loadMore() {
-        if  currentState == .searching || !photoDataSource.hasMore() {
-            return
-        }
+    private func loadMore(_ indexPaths: [IndexPath]) {
+        guard let index = indexPaths.first?.row,
+            photosViewModel.loadMore(start: index, count: PhotoRequest.itemsPerPage) else { return }
         
+        
+        let page = Int(ceil(Double(index + 1) / Double(PhotoRequest.itemsPerPage)))
+        print("loading \(index) for page \(page)")
         search(PhotoRequest(
-            searchTerm: photoDataSource.request.searchTerm,
-            page: photoDataSource.request.page + 1))
+            searchTerm: photosViewModel.searchTerm,
+            page: page))
     }
 }
 
@@ -237,7 +211,7 @@ extension PhotoCollectionViewController {
 // MARK: - Error Handling
 extension PhotoCollectionViewController {
     
-    fileprivate func showError(_ error: Error?) {
+    private func showError(_ error: Error?) {
         guard let error = error else {
             return
         }
