@@ -62,7 +62,6 @@ class PhotoCollectionViewController: UIViewController {
         
         collectionView.collectionViewLayout = columnLayout
         collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.prefetchDataSource = self
         
         currentState = .initial
         
@@ -95,13 +94,6 @@ extension PhotoCollectionViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension PhotoCollectionViewController: UICollectionViewDelegate {
     
-}
-
-// MARK: - UICollectionViewDelegate
-extension PhotoCollectionViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        loadMore(indexPaths)
-    }
 }
 
 // MARK: - Search
@@ -184,18 +176,6 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
     private func cancelSearch() {
         // Cancel any previous delayed requests to search because it is obsolete.
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.initialSearch), object: nil)
-    }
-    
-    private func loadMore(_ indexPaths: [IndexPath]) {
-        guard let index = indexPaths.first?.row,
-            photosViewModel.loadMore(start: index, count: PhotoRequest.itemsPerPage) else { return }
-        
-        
-        let page = Int(ceil(Double(index + 1) / Double(PhotoRequest.itemsPerPage)))
-        print("loading \(index) for page \(page)")
-        search(PhotoRequest(
-            searchTerm: photosViewModel.searchTerm,
-            page: page))
     }
 }
 
