@@ -14,7 +14,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet var imageView: UIImageView!
     
     var imageDataTask: URLSessionDataTask?
     

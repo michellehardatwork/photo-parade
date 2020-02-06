@@ -21,6 +21,8 @@ class PhotoCollectionViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var activityView: PhotoSearchTableStateView!
     
+    var selectedIndexPath: IndexPath?
+    
     let photoService = PhotoService(photoProvider: Flickr())
     
     private var photosViewModel = PhotosViewModel(
@@ -94,6 +96,18 @@ extension PhotoCollectionViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension PhotoCollectionViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedIndexPath = indexPath
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: PhotoDetailViewController.self))
+        guard let controller = storyboard.instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController,
+            let photoViewModel = photosViewModel.photos[indexPath.item]  else {
+            return
+        }
+
+        controller.initialize()
+        controller.model = photoViewModel
+        self.present(controller, animated: true, completion: nil)
+    }
     
 }
 
@@ -192,7 +206,6 @@ extension PhotoCollectionViewController: UISearchBarDelegate {
         
         
         let page = Int(ceil(Double(index + 1) / Double(PhotoRequest.itemsPerPage)))
-        print("loading \(index) for page \(page)")
         search(PhotoRequest(
             searchTerm: photosViewModel.searchTerm,
             page: page))
