@@ -64,24 +64,7 @@ class Flickr: PhotoProvider {
     }
     
     func photos(_ data: Data?) -> PhotoResult {
-        
-        let decoder = JSONDecoder()
-        
-        guard let data = data,
-            let flickrPhotos = try? decoder.decode(FlickrResult.self, from: data) else {
-                print("Photo Service: No data received or unexpected format")
-                return PhotoResult(results: [], totalMatches: .noTotal)
-        }
-        
-        //Transform into generic Photo array
-        let photos: [Photo?] = flickrPhotos.photos.photo.map({ (item: Any) -> Photo?  in
-            if let flickrPhoto = item as? FlickrResult.FlickrPhoto {
-               return Photo(title: flickrPhoto.title, imageURL: flickrPhoto.url())
-            }
-            return nil
-        })
-        
-        return PhotoResult(results: photos.compactMap { $0 }, totalMatches: .total((Int(flickrPhotos.photos.total) ?? 0)))
+        // Decode the data
+        return PhotoResult(results: [], totalMatches: .noTotal)
     }
-    
 }
